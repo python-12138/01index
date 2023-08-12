@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+     
+        button{
+            width: 60px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: pink;
+            color: beige;
+            margin-top: 30px;
+        }
+        div button:nth-child(1)
+        {
+            margin-left: 45%;
+
+        }
+        div button:nth-child(2)
+        {
+            margin-left: 35%;
+        }
+
+        div{
+            width: 500px;
+            height: 300px;
+            margin: 0 auto;
+            margin-top: 20px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        textarea{
+            font-size: 20px;
+            width: 500px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div> <textarea></textarea>
+        <button id="extract">提取</button>
+        <button id="clean">清除</button>
+    </div>
+    
+   <script>
+    let text_area=document.querySelector("textarea")
+    text_area.focus()
+
+    let button_s=document.querySelector("button")
+    let button_clean=document.querySelector("#clean")
+    button_s.onclick=function()
+    {
+        number=0
+        let Building_number_rule=/\[.*\]/
+      
+        let rule= /\(.*(?:[\d]{3}?).*\)/g
+        Building_number_rule=Building_number_rule.exec(text_area.value)
+        let orders=text_area.value.match(rule)
+        orders=orders.join("")
+        let rule2=/[\d]{3}/g
+        orders=orders.match(rule2)
+        number=orders.length +"单"
+
+        orders.sort()
+        orders.push(number)
+
+        text_area.value=orders.join(",")+Building_number_rule
+
+        navigator.clipboard.writeText(text_area.value)
+        
+    }
+    button_clean.addEventListener('click',function(){
+        text_area.value=" "
+    })
+   </script>
+</body>
+</html>
