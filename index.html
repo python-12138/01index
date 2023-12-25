@@ -51,27 +51,41 @@
 
     let button_s=document.querySelector("button")
     let button_clean=document.querySelector("#clean")
-    button_s.onclick=function()
-    {
-        number=0
-        let Building_number_rule=/\[.*\]/
-      
-        let rule= /\(.*(?:[\d]{3}?).*\)/g
-        Building_number_rule=Building_number_rule.exec(text_area.value)
-        let orders=text_area.value.match(rule)
-        orders=orders.join("")
-        let rule2=/[\d]{3}/g
-        orders=orders.match(rule2)
-        number=orders.length +"单"
-
-        orders.sort()
-        orders.push(number)
-
-        text_area.value=orders.join(",")+Building_number_rule
-
-        navigator.clipboard.writeText(text_area.value)
+    button_s.onclick = function() {
+        number = 0;
         
-    }
+        console.log(text_area.value)
+        let addressRule = /址：\s*([^⇅]+)\s*⇅/g;
+     
+        let dormitoryNumberRule = /(\d{3})/g;
+        
+        //匹配所有的地址 完整版地址
+        let buildingaddress = text_area.value.match(addressRule);
+        console.log(buildingaddress)
+
+        //获取长度
+        number = buildingaddress.length
+        console.log(number)
+
+        //提取最终的宿舍号地址
+        let addresses = buildingaddress.join(",").match(dormitoryNumberRule);
+        console.log(addresses.sort())
+        
+        //结果
+        let result =  addresses.sort().join(", ") +  "\n" +  number.toString() + "单";
+
+        text_area.value =result;
+        
+
+    
+   
+        
+    };
+    
+    
+    
+    
+    
     button_clean.addEventListener('click',function(){
         text_area.value=" "
     })
